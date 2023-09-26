@@ -3,10 +3,26 @@ package models;
 public abstract class Creature {
     private int attackNum;
     private int defenceNum;
-    private int healthPoints;
+    private int currentHealthPoints;
+    private int maxHealthPoints;
     private boolean dead = false;
     private int damageHighBound;
     private int damageLowBound;
+
+    public Creature() {
+    }
+
+    public Creature(int attackNum, int defenceNum,
+                    int currentHealthPoints, int maxHealthPoints,
+                    boolean dead, int damageHighBound, int damageLowBound) {
+        this.attackNum = attackNum;
+        this.defenceNum = defenceNum;
+        this.currentHealthPoints = currentHealthPoints;
+        this.maxHealthPoints = maxHealthPoints;
+        this.dead = dead;
+        this.damageHighBound = damageHighBound;
+        this.damageLowBound = damageLowBound;
+    }
 
     public int getAttackNum() {
         return attackNum;
@@ -35,14 +51,33 @@ public abstract class Creature {
     }
 
     public int getHealthPoints() {
-        return healthPoints;
+        return currentHealthPoints;
     }
 
-    public void setHealthPoints(int healthPoints) {
-        if (healthPoints <= 0){
+    public void setHealthPoints(int currentHealthPoints) {
+        if (currentHealthPoints <= 0){
             System.out.println("Здоровье должно быть положительным числом!");
         }
-        this.healthPoints = healthPoints;
+        else {
+            this.currentHealthPoints = currentHealthPoints;
+        }
+    }
+
+    public int getMaxHealthPoints() {
+        return maxHealthPoints;
+    }
+
+    public void setMaxHealthPoints(int maxHealthPoints) {
+        if (maxHealthPoints <= 0){
+            System.out.println("Здоровье должно быть положительным числом!");
+        }
+        else {
+            this.maxHealthPoints = maxHealthPoints;
+        }
+    }
+
+    public int getCurrentHealthPoints() {
+        return currentHealthPoints;
     }
 
     public void setDamageBoundaries(int lowBound, int highBound){
@@ -73,10 +108,10 @@ public abstract class Creature {
     }
 
     public void getHit(int damage){
-        healthPoints = healthPoints - damage;
-        if (healthPoints <= 0){
+        currentHealthPoints = currentHealthPoints - damage;
+        if (currentHealthPoints <= 0){
             dead = true;
-            healthPoints = 0;
+            currentHealthPoints = 0;
         }
     }
 

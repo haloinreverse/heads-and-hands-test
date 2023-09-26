@@ -1,2 +1,5 @@
-package models;public class Monster {
+package models;
+
+public class Monster extends Creature{
+
 }
