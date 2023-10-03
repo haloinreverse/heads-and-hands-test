@@ -1,13 +1,14 @@
 package models;
 
 public abstract class Creature {
-    private int attackNum;
-    private int defenceNum;
+    private int attackNum = 1;
+    private int defenceNum = 1;
     private int currentHealthPoints;
-    private int maxHealthPoints;
+    private int maxHealthPoints = 1;
     private boolean dead = false;
-    private int damageHighBound;
-    private int damageLowBound;
+    private int damageHighBound = 1;
+    private int damageLowBound = 1;
+    protected String type;
 
     public Creature() {
     }
@@ -30,10 +31,11 @@ public abstract class Creature {
 
     public void setAttackNum(int attackNum) {
         if (attackNum > 30 || attackNum < 0){
-            System.out.println("Атака должна быть больше нуля и меньше 30!");
+            System.out.printf("%s: Атака должна быть больше нуля и меньше 30!\n", type);
         }
         else{
             this.attackNum = attackNum;
+            System.out.printf("%s: Атака %s успешно установлена\n", type, attackNum);
         }
     }
 
@@ -43,10 +45,11 @@ public abstract class Creature {
 
     public void setDefenceNum(int defenceNum) {
         if (defenceNum > 30 || defenceNum < 0){
-            System.out.println("Защита должна быть больше нуля и меньше 30!");
+            System.out.printf("%s: Защита должна быть больше нуля и меньше 30!\n", type);
         }
         else{
             this.defenceNum = defenceNum;
+            System.out.printf("%s: Защита %s успешно установлена\n",type, defenceNum);
         }
     }
 
@@ -54,12 +57,13 @@ public abstract class Creature {
         return currentHealthPoints;
     }
 
-    public void setHealthPoints(int currentHealthPoints) {
+    public void setCurrentHealthPoints(int currentHealthPoints) {
         if (currentHealthPoints <= 0){
-            System.out.println("Здоровье должно быть положительным числом!");
+            System.out.printf("%s: Здоровье должно быть положительным числом!\n", type);
         }
         else {
             this.currentHealthPoints = currentHealthPoints;
+            System.out.printf("%s: Текущее здоровье %s успешно установлена\n",type, currentHealthPoints);
         }
     }
 
@@ -69,10 +73,12 @@ public abstract class Creature {
 
     public void setMaxHealthPoints(int maxHealthPoints) {
         if (maxHealthPoints <= 0){
-            System.out.println("Здоровье должно быть положительным числом!");
+            System.out.printf("%s: Здоровье должно быть положительным числом!\n", type);
         }
         else {
             this.maxHealthPoints = maxHealthPoints;
+            this.currentHealthPoints = maxHealthPoints;
+            System.out.printf("%s: Максимальное здоровье %s успешно установлено\n", type, maxHealthPoints);
         }
     }
 
@@ -84,12 +90,16 @@ public abstract class Creature {
         if (lowBound > 0 && highBound > 0){
             if (lowBound > highBound){
                 damageLowBound = highBound;
-                damageLowBound = lowBound;
+                damageHighBound = lowBound;
             }
             else{
                 damageLowBound = lowBound;
                 damageHighBound = highBound;
             }
+            System.out.printf("%s: Урон установлен в границах от %s до %s\n", type, damageLowBound, damageHighBound);
+        }
+        else {
+            System.out.printf("%s: Урон может быть только положительным числом\n", type );
         }
 
 
@@ -110,6 +120,7 @@ public abstract class Creature {
     public void getHit(int damage){
         currentHealthPoints = currentHealthPoints - damage;
         if (currentHealthPoints <= 0){
+            System.out.printf("Удар оказался смертельным для %s\n", type);
             dead = true;
             currentHealthPoints = 0;
         }
@@ -133,7 +144,12 @@ public abstract class Creature {
                 int hitScore = (int) (Math.random() *
                         (this.damageHighBound - this.damageLowBound + 1))
                         + this.damageLowBound;
+                System.out.printf("%s нанес удар %s у.е\n",type, hitScore);
                 creature.getHit(hitScore);
+
+            }
+            else{
+                System.out.printf("Удар %s не удался!\n", type);
             }
         }
     }
